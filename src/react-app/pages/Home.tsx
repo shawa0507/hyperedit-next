@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
+import { FFMPEG_URL } from '@/react-app/config';
 import VideoPreview, { VideoPreviewHandle } from '@/react-app/components/VideoPreview';
 import Timeline from '@/react-app/components/Timeline';
 import AssetLibrary from '@/react-app/components/AssetLibrary';
@@ -565,7 +566,7 @@ export default function Home() {
     console.log('Command:', command);
 
     // Call the server to process the video with FFmpeg
-    const response = await fetch(`http://localhost:3333/session/${session.sessionId}/process-asset`, {
+    const response = await fetch(`${FFMPEG_URL}/session/${session.sessionId}/process-asset`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -641,7 +642,7 @@ export default function Home() {
     console.log('Generating chapters and making cuts...');
 
     // Generate chapters using the session API
-    const response = await fetch(`http://localhost:3333/session/${session.sessionId}/chapters`, {
+    const response = await fetch(`${FFMPEG_URL}/session/${session.sessionId}/chapters`, {
       method: 'POST',
     });
 
@@ -671,7 +672,7 @@ export default function Home() {
     console.log('Cut timestamps:', cutTimestamps);
 
     // Get current project state from server
-    const projectResponse = await fetch(`http://localhost:3333/session/${session.sessionId}/project`);
+    const projectResponse = await fetch(`${FFMPEG_URL}/session/${session.sessionId}/project`);
     const projectData = await projectResponse.json();
     let currentClips: TimelineClip[] = projectData.clips || [];
 
@@ -725,7 +726,7 @@ export default function Home() {
 
     // Save the modified clips directly to server
     if (cutsApplied > 0) {
-      await fetch(`http://localhost:3333/session/${session.sessionId}/project`, {
+      await fetch(`${FFMPEG_URL}/session/${session.sessionId}/project`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...projectData, clips: currentClips }),
@@ -755,7 +756,7 @@ export default function Home() {
     }
 
     // Call the transcribe-and-extract endpoint
-    const response = await fetch(`http://localhost:3333/session/${session.sessionId}/transcribe-and-extract`, {
+    const response = await fetch(`${FFMPEG_URL}/session/${session.sessionId}/transcribe-and-extract`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -793,7 +794,7 @@ export default function Home() {
     }
 
     // Call the generate-broll endpoint
-    const response = await fetch(`http://localhost:3333/session/${session.sessionId}/generate-broll`, {
+    const response = await fetch(`${FFMPEG_URL}/session/${session.sessionId}/generate-broll`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -843,7 +844,7 @@ export default function Home() {
     // Actually, let's just save directly to server and reload
 
     // Save clips directly to server
-    const projectResponse = await fetch(`http://localhost:3333/session/${session.sessionId}/project`);
+    const projectResponse = await fetch(`${FFMPEG_URL}/session/${session.sessionId}/project`);
     const projectData = await projectResponse.json();
 
     const updatedClips = [...(projectData.clips || []), ...newClips];
@@ -1893,33 +1894,30 @@ export default function Home() {
             <div className="flex items-center gap-1 px-2 border-b border-zinc-800/50">
               <button
                 onClick={() => setActiveAgent('director')}
-                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors ${
-                  activeAgent === 'director'
-                    ? 'text-orange-500 border-b-2 border-orange-500 bg-zinc-800/30'
-                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/20'
-                }`}
+                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors ${activeAgent === 'director'
+                  ? 'text-orange-500 border-b-2 border-orange-500 bg-zinc-800/30'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/20'
+                  }`}
               >
                 <Sparkles className="w-3.5 h-3.5" />
                 Director
               </button>
               <button
                 onClick={() => setActiveAgent('picasso')}
-                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors ${
-                  activeAgent === 'picasso'
-                    ? 'text-orange-300 border-b-2 border-orange-300 bg-zinc-800/30'
-                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/20'
-                }`}
+                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors ${activeAgent === 'picasso'
+                  ? 'text-orange-300 border-b-2 border-orange-300 bg-zinc-800/30'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/20'
+                  }`}
               >
                 <Palette className="w-3.5 h-3.5" />
                 Picasso
               </button>
               <button
                 onClick={() => setActiveAgent('dicaprio')}
-                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors ${
-                  activeAgent === 'dicaprio'
-                    ? 'text-zinc-300 border-b-2 border-zinc-300 bg-zinc-800/30'
-                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/20'
-                }`}
+                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors ${activeAgent === 'dicaprio'
+                  ? 'text-zinc-300 border-b-2 border-zinc-300 bg-zinc-800/30'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/20'
+                  }`}
               >
                 <Film className="w-3.5 h-3.5" />
                 DiCaprio

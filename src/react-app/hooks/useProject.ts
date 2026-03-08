@@ -1,6 +1,8 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 
-const LOCAL_FFMPEG_URL = 'http://localhost:3333';
+import { FFMPEG_URL } from '@/react-app/config';
+
+const LOCAL_FFMPEG_URL = FFMPEG_URL;
 const SESSION_STORAGE_KEY = 'clipwise-session';
 
 // Asset - source file in library
@@ -911,7 +913,7 @@ export function useProject() {
         await fetch(`${LOCAL_FFMPEG_URL}/session/${session.sessionId}`, {
           method: 'DELETE',
         });
-      } catch {}
+      } catch { }
     }
     setSession(null);
     setAssets([]);

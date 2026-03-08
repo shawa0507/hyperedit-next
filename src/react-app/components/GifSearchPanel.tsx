@@ -1,4 +1,5 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { FFMPEG_URL } from '@/react-app/config';
 import { Search, TrendingUp, Plus, X, Loader2 } from 'lucide-react';
 
 interface GifResult {
@@ -24,7 +25,7 @@ interface GifSearchPanelProps {
   }) => void;
 }
 
-const LOCAL_FFMPEG_URL = 'http://localhost:3333';
+const LOCAL_FFMPEG_URL = FFMPEG_URL;
 
 export default function GifSearchPanel({ sessionId, onClose, onGifAdded }: GifSearchPanelProps) {
   const [searchQuery, setSearchQuery] = useState('');

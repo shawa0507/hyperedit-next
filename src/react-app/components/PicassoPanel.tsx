@@ -87,7 +87,7 @@ export default function PicassoPanel({
     setIsGenerating(true);
 
     try {
-      const response = await fetch(`http://localhost:3333/session/${sessionId}/generate-image`, {
+      const response = await fetch(`${FFMPEG_URL}/session/${sessionId}/generate-image`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -283,7 +283,7 @@ export default function PicassoPanel({
                             className="relative rounded-lg overflow-hidden bg-zinc-900"
                           >
                             <img
-                              src={`http://localhost:3333${image.streamUrl}`}
+                              src={`${FFMPEG_URL}${image.streamUrl}`}
                               alt={image.filename}
                               className="w-full h-auto"
                               loading="lazy"
@@ -315,11 +315,10 @@ export default function PicassoPanel({
             type="button"
             onClick={() => setShowQuickActions(!showQuickActions)}
             disabled={!sessionId || isGenerating}
-            className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-              showQuickActions
+            className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${showQuickActions
                 ? 'bg-orange-400/20 text-orange-300 ring-1 ring-orange-400/50'
                 : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed'
-            }`}
+              }`}
           >
             <Zap className="w-4 h-4" />
             Quick Actions

@@ -1,6 +1,8 @@
 import { useState, useCallback, useRef } from 'react';
 
-const LOCAL_FFMPEG_URL = 'http://localhost:3333';
+import { FFMPEG_URL } from '@/react-app/config';
+
+const LOCAL_FFMPEG_URL = FFMPEG_URL;
 
 interface SessionInfo {
   sessionId: string;
@@ -57,7 +59,7 @@ export function useVideoSession() {
       if (session?.sessionId) {
         try {
           await fetch(`${LOCAL_FFMPEG_URL}/session/${session.sessionId}`, { method: 'DELETE' });
-        } catch {}
+        } catch { }
       }
 
       uploadAbortRef.current = new AbortController();
@@ -291,7 +293,7 @@ export function useVideoSession() {
     if (session?.sessionId) {
       try {
         await fetch(`${LOCAL_FFMPEG_URL}/session/${session.sessionId}`, { method: 'DELETE' });
-      } catch {}
+      } catch { }
     }
     setSession(null);
   }, [session]);
