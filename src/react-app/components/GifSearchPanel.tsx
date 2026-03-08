@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { FFMPEG_URL } from '@/react-app/config';
 import { Search, TrendingUp, Plus, X, Loader2 } from 'lucide-react';
 
