@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
-import { Palette, Send, Loader2, Sparkles, X, Zap, Image, Square, RectangleVertical } from 'lucide-react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { FFMPEG_URL } from '@/react-app/config';
+import { Palette, Send, Loader2, Sparkles, X, Zap, Image, Square, RectangleVertical, Plus } from 'lucide-react';
 
 interface ChatMessage {
   type: 'user' | 'assistant';
@@ -316,8 +317,8 @@ export default function PicassoPanel({
             onClick={() => setShowQuickActions(!showQuickActions)}
             disabled={!sessionId || isGenerating}
             className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${showQuickActions
-                ? 'bg-orange-400/20 text-orange-300 ring-1 ring-orange-400/50'
-                : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed'
+              ? 'bg-orange-400/20 text-orange-300 ring-1 ring-orange-400/50'
+              : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed'
               }`}
           >
             <Zap className="w-4 h-4" />
